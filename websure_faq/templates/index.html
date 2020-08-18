@@ -1,0 +1,93 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <title>Websure FAQ</title>
+  </head>
+  <body>
+    <!-- Image and text -->
+    <nav class="navbar navbar-dark bg-dark"> 
+      <a class="navbar-brand" href="#">
+        <img src="{% static "./websure_faq/img/markel.png" %}" width="70" height="70" class="d-inline-block align-center" alt="My image" loading="lazy">
+        Websure-FAQ
+      </a>
+       <form class="form-inline my-2 my-lg-0" method='GET' action='s/'>
+          <input class="form-control mr-sm-2" name="q" type="search-bar" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
+    </form>
+    </nav>
+    </br>
+    </br>
+    {%block content%}
+    <div class="container">
+      <div class="col-12">
+      {%for object in context.object_list %}
+               
+        <h2 class='bd-title' id='content'>{{object.header}}</h2>
+            <div class="accordion" id="accordionExample">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                   <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      <h4> {{object.question_text}} </h4>
+                    </button>                
+                  </h2>
+                </div>
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <h3> {{object.answer}} </h3>
+                  </div>
+                </div>
+              </div>
+            </div>     
+         </div>
+         </br>
+         </br>
+         
+            <nav aria-label="...">
+            <ul class="pagination">
+              <li class="page-item {%if not previous_page_url %}disabled{% endif %}">
+                <a class="page-link" href="{{ previous_page_url }}" tabindex="-1" aria-disabled="true">Previous</a>
+              </li>
+             {% for n in context.paginator.page_range %}
+                {%if context.number == n %}
+                  <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="?page={{n}}">{{n}}<span class="sr-only">(current)</span></a>
+                  </li>
+                  {% elif n > context.number|add:-2 and n < context.number|add:2 %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{n}}">{{n}}</a>
+                    </li>
+                {% endif %}
+             {% endfor %}
+              <li class="page-item {%if not next_page_url %}disabled{% endif %}">
+                <a class="page-link" href="{{next_page_url}}">Next</a>
+              </li>
+            </ul>
+          </nav>
+      {%endfor%}
+    </div>
+    
+ 
+
+
+   </div>
+    
+   {% endblock %}
+   
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  </body>
+</html>
