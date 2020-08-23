@@ -2,16 +2,16 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Question
+import django_filters
 
 # Create your views here.
 
 def index(request):
     question = Question.objects.all()
-    quotation = Question.objects.filter(header='Quotation')
-    newbusiness=Question.objects.filter(header='New Business')
-    paginator=Paginator(question,1)
+    paginator=Paginator(question,10)
     page_number=request.GET.get('page',1)
     page_obj=paginator.get_page(page_number)
+    
     if page_obj.has_next():
         next_url=f'?page={page_obj.next_page_number()}'
     else:
@@ -22,8 +22,6 @@ def index(request):
         prev_url=''
     return render(request,'index.html',{
         'Question':question,
-         'Quotation':quotation,
-         'newbusiness': newbusiness,
          'context':page_obj,
          'next_page_url':next_url,
          'previous_page_url':prev_url
@@ -35,7 +33,7 @@ def search(request):
     except:
         q=None
     if q:
-        question = Question.objects.filter(question_text__icontains=q)
+        question = Question.objects.filter(Q(question_text__icontains=q)|Q(header__icontains=q))
         context={'query': q,'question':question}
         template ='results.html'
     else:
@@ -43,4 +41,6 @@ def search(request):
         template = 'index.html'
 
     return render(request,template,context)
+
+
 

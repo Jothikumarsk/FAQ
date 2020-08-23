@@ -18,10 +18,16 @@
                   <div class="card-body">
                     <h3> {{questions.answer}} </h3>
                   </div>
+                  <div class="alert alert-info" role="alert">
+                    {{object.url}}
+                  </div>
                 </div>
               </div>
             </div> 
         </div>
 {%endfor%}
-
+</br>
+   <div class="d-flex justify-content-center">
+        <a class="btn btn-primary" href="/websure_faq/" role="button">Go Back</a>
+   </div>
 {% endblock %}
